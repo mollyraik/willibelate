@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Will I Be Late Today?</h1>
+<h2>Realtime Subway Updates</h2>
+<p>Track favorite trains and stations</p>
+<ul>
+    {% for line in data.data %}
+    <li>This is a train: {{line}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
