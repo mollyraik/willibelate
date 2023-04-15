@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Upcoming trains at {{ station_data.name }}</title>
+{% endblock %}
+
+{% block content %}
+<h1>Upcoming trains at {{ station_data.name }}</h1>
+<h3>status message</h3>
+<hr />
+<h4>Northbound Trains:</h4>
+{% for train in station_data.N %}
+        <ul>
+            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+        </ul>
+{% endfor %}
+<h4>Southbound Trains:</h4>
+{% for train in station_data.N %}
+        <ul>
+            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+        </ul>
+{% endfor %}
+{% endblock%}

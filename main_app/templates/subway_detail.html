@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>What's Happening on the {{ subway }} ?</title>
+{% endblock %}
+
+{% block content %}
+<h1>What's Happening on the {{ subway }} ?</h1>
+<h3>status message</h3>
+<hr />
+<h4>Check status at a specific station: </h4>
+<ul class="station-list">
+    {% for station in stations %}
+    <li>
+        <a href="{% url 'station_detail' station.id %}">
+            {{ station.name }}
+        </a>
+    </li>
+    {% empty %}
+    <li>this was not the right call</li>
+    {% endfor %}
+</ul>
+
+{% endblock%}
