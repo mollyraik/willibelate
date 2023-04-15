@@ -5,10 +5,30 @@
 <h1>Will I Be Late Today?</h1>
 <h2>Realtime Subway Updates</h2>
 <p>Track favorite trains and stations</p>
-<ul>
-    {% for line in data.data %}
-    <li>This is a train: {{line}}</li>
-    {% endfor %}
-</ul>
+<div class="train-lines">
+    <a href="/line/1" class="mta-bullet line-1">1</a>
+    <a href="/line/2" class="mta-bullet line-2">2</a>
+    <a href="/line/3" class="mta-bullet line-3">3</a><br />
+    <a href="/line/4" class="mta-bullet line-4">4</a>
+    <a href="/line/5" class="mta-bullet line-5">5</a>
+    <a href="/line/6" class="mta-bullet line-6">6</a>
+    <a href="/line/7" class="mta-bullet line-7">7</a><br />
+    <a href="/line/A" class="mta-bullet line-A">A</a>
+    <a href="/line/C" class="mta-bullet line-C">C</a>
+    <a href="/line/E" class="mta-bullet line-E">E</a><br />
+    <a href="/line/N" class="mta-bullet line-N">N</a>
+    <a href="/line/Q" class="mta-bullet line-Q">Q</a>
+    <a href="/line/R" class="mta-bullet line-R">R</a>
+    <a href="/line/W" class="mta-bullet line-W">W</a><br />
+    <a href="/line/B" class="mta-bullet line-B">B</a>
+    <a href="/line/D" class="mta-bullet line-D">D</a>
+    <a href="/line/F" class="mta-bullet line-F">F</a>
+    <a href="/line/M" class="mta-bullet line-M">M</a><br />
+    <a href="/line/L" class="mta-bullet line-L">L</a>
+    <a href="/line/G" class="mta-bullet line-G">G</a>
+    <a href="/line/J" class="mta-bullet line-J">J</a>
+    <a href="/line/Z" class="mta-bullet line-Z">Z</a>
+</div>
+
 
 {% endblock %}
