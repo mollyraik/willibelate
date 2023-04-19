@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Favorite Stations</title>
+{% endblock %}
+
+{% block content %}
+<h1>Favorite Stations</h1>
+<div class="row">
+    {% for station in stations %}
+    <div class="col s12 m6 l3">
+        <h3>{{ station.name }}</h3>
+        <h5>Northbound Trains:</h5>
+        {% for train in station.N %}
+        <ul>
+            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+        </ul>
+        {% endfor %}
+        <h5>Southbound Trains:</h5>
+        {% for train in station.S %}
+        <ul>
+            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+        </ul>
+        {% endfor %}
+    </div>
+    {% empty %}
+    <div>
+        <h5>There are no favorite stations yet.</h5>
+    </div>
+    {% endfor %}
+</div>
+{% endblock%}
