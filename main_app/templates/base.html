@@ -10,11 +10,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block title%}
     <title>Will I Be Late?</title>
     {% endblock %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header class="navbar-fixed">
@@ -50,6 +51,16 @@
      </main>
      <footer class="page-footer deep-purple lighten-3">
          <p>All Rights Reserved, Copyright &copy; Will I Be Late 2023 &nbsp;</p>
-     </footer> 
+     </footer>
+     <script type="text/javascript" src="js/materialize.min.js"></script>
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.dropdown-trigger');
+          var instances = M.Dropdown.init(elems);
+          });
+      // add event listener to the dropdown
+      // when the dropdown is clicked, open the dropdown
+      
+      </script> 
 </body>
 </html>

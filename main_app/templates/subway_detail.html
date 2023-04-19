@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>What's Happening on the {{ subway }} ?</title>
 {% endblock %}
 
 {% block content %}
-<h1>What's Happening on the {{ subway }} ?</h1>
+<i class="large material-icons right">star_border</i>
+<h1>What's Happening on the <img class="responsive-img"  id="header-bullet" src="{% static 'imgs/' %}{{ subway }}.svg" alt="{{ subway }}"> ?</h1>
 <h4>Current Service Alerts:</h4>
 <ul class="status-update">
     {% for alert in alerts %}
@@ -14,7 +16,8 @@
 </ul>
 <hr />
 <h4>Check for Upcoming Trains at a Specific Station: </h4>
-<ul class="station-list">
+<a class='dropdown-trigger btn' href="#" data-target='station-dropdown'>Select a Station</a>
+<ul id="station-dropdown" class="station-list dropdown-content">
     {% for station in stations %}
     <li>
         <a href="{% url 'station_detail' station.id %}">
@@ -22,8 +25,9 @@
         </a>
     </li>
     {% empty %}
-    <li>this was not the right call</li>
+    <li>This train is not currently running</li>
     {% endfor %}
 </ul>
+
 
 {% endblock%}
