@@ -13,6 +13,7 @@ class Route(models.Model):
     route_url = models.CharField(max_length=50)
     route_color = models.CharField(max_length=6, null=True)
     route_text_color = models.CharField(max_length=6, null=True)
+    is_favorite = models.BooleanField(default=False)
     user = models.ManyToManyField(User)
 
     def __str__(self):
@@ -25,6 +26,7 @@ class Station(models.Model):
     lon = models.FloatField()
     parent_id = models.CharField(max_length=4)
     json_id = models.CharField(max_length=4, null=True)
+    is_favorite = models.BooleanField(default=False)
     user = models.ManyToManyField(User)
 
     def __str__(self):
