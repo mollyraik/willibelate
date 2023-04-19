@@ -8,6 +8,7 @@
 <h1>Upcoming trains at {{ station_data.name }}</h1>
 <h3>status message</h3>
 <hr />
+<input type="hidden" value="{{ now }}" id="now">
 <h4>Northbound Trains:</h4>
 {% for train in station_data.N %}
         <ul>
@@ -20,4 +21,10 @@
             <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
         </ul>
 {% endfor %}
+<script>
+    var now = document.getElementById("now").value;
+    setTimeout(function(){
+        window.location.reload(1);
+    }, 60000);
+</script>
 {% endblock%}

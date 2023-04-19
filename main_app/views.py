@@ -19,13 +19,12 @@ SERVICE_ALERT_URL = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/cams
 station_tz = pytz.timezone('America/New_York')
 now = datetime.now(station_tz)
 now_in_unix = math.floor(now.timestamp())
-print(now_in_unix)
+# print(now_in_unix)
 
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
     
-
 
 def signup(request):
     error_message = ''
@@ -70,7 +69,7 @@ def subway_alerts(request, subway_id, sorted_stations):
     result = requests.get(url, headers=headers)
     if result.status_code == 200:
         data = result.json()
-        # print(result)
+        # print(data)
         alerts = data['entity']
         high_priority_alerts = []
         for alert in alerts:
@@ -80,10 +79,12 @@ def subway_alerts(request, subway_id, sorted_stations):
                     train_line, priority = alert['alert']['informed_entity'][i]['transit_realtime.mercury_entity_selector']['sort_order'].split(':')[1:]
                     priority = int(priority)
                     if train_line == subway_id and priority > 19:
-                        high_priority_alerts.append({
-                            "text": alert['alert']['header_text']['translation'][0]['text'],
-                            "priority": priority,
-                        })
+                        # check if alert is active
+                        if alert['alert']['active_period'][0]['start'] < now_in_unix:
+                            high_priority_alerts.append({
+                                "text": alert['alert']['header_text']['translation'][0]['text'],
+                                "priority": priority,
+                            })
         # remove duplicates
         high_priority_alerts = list({alert['text']: alert for alert in high_priority_alerts}.values())
         # sort by priority
@@ -110,7 +111,8 @@ def subway_detail(request, subway_id):
 
 def station_detail(request, station_id):
     # add time query to prevent caching
-    url = f"{API_URL}by-id/{station_id}?time={now_in_unix}"
+    now = datetime.now(station_tz)
+    url = f"{API_URL}by-id/{station_id}?time={now}"
     result = requests.get(url)
     if result.status_code == 200:
         data = result.json()
@@ -123,24 +125,25 @@ def station_detail(request, station_id):
                     departure['time'] = train_time.astimezone(station_tz).strftime("%I:%M %p")
                     departure['time_until_train'] = time_until_train.__trunc__()                    
         return render(request, 'station_detail.html', {
+            "now": now,
             "station_id": station_id,
             "station_data": data['data'][0],
         })
     return HttpResponse('Something went wrong')
 
-# def test(request):
-#     url = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts.json"
-#     headers = {
-#         "x-api-key": "Yiwi9kjBbi9VLTh4C6fRI4TBYF1ijJoJ1mzDats9",
-#         "content-type": "application/json"
-#         }
-#     result = requests.get(url, headers=headers)
-#     if result.status_code == 200:
-#         data = result.json()
-#         new_data = json.dumps(data, indent=4, sort_keys=True)
-#         for i in range(len(data['entity'])):
-#             if ":32" in data['entity'][i]['alert']['informed_entity'][0]['transit_realtime.mercury_entity_selector']['sort_order'] and '[1]' in data['entity'][i]['alert']['header_text']['translation'][0]['text']:
-#                 print(data['entity'][i]['alert']['header_text']['translation'][0]['text'])
-#         return HttpResponse(new_data)
-#     return HttpResponse('Something went wrong')
+def test(request):
+    url = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts.json"
+    headers = {
+        "x-api-key": "Yiwi9kjBbi9VLTh4C6fRI4TBYF1ijJoJ1mzDats9",
+        "content-type": "application/json"
+        }
+    result = requests.get(url, headers=headers)
+    if result.status_code == 200:
+        data = result.json()
+        new_data = json.dumps(data, indent=4, sort_keys=True)
+        for i in range(len(data['entity'])):
+            if ":32" in data['entity'][i]['alert']['informed_entity'][0]['transit_realtime.mercury_entity_selector']['sort_order'] and '[1]' in data['entity'][i]['alert']['header_text']['translation'][0]['text']:
+                print(data['entity'][i]['alert']['header_text']['translation'][0]['text'])
+        return HttpResponse(new_data)
+    return HttpResponse('Something went wrong')
 
