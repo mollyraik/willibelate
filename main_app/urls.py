@@ -11,4 +11,6 @@ urlpatterns = [
     path('station/<str:station_id>/', views.station_detail, name='station_detail'),
     path('line/<str:subway_id>/add/', views.add_subway, name='add_subway'),
     path('station/<str:station_id>/add/', views.add_station, name='add_station'),
+    path('line/<str:subway_id>/remove/', views.remove_subway, name='remove_subway'),
+    path('station/<str:station_id>/remove/', views.remove_station, name='remove_station'),
 ]

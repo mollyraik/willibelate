@@ -60,7 +60,7 @@ def station_list(request):
     stations = Station.objects.filter(user=request.user)
     return render(request, 'favorite_stations.html')
 
-def subway_alerts(request, subway_id, sorted_stations):
+def subway_alerts(request, subway_id, sorted_stations, fav_subway):
     url = SERVICE_ALERT_URL
     headers = {
         "x-api-key": os.environ.get('MTA_API_KEY'),
@@ -95,10 +95,15 @@ def subway_alerts(request, subway_id, sorted_stations):
             "subway": subway_id,
             "alerts": high_priority_alerts,
             "stations": sorted_stations,
+            "fav_subway": fav_subway,
         })
     return HttpResponse('Something went wrong')
 
 def subway_detail(request, subway_id):
+    if Route.objects.filter(user=request.user.id, route_id=subway_id).exists():
+        fav_subway = True
+    else:
+        fav_subway = False
     url = f"{API_URL}by-route/{subway_id}"
     result = requests.get(url)
     if result.status_code == 200:
@@ -106,7 +111,7 @@ def subway_detail(request, subway_id):
         stations = data['data']
         sorted_stations = sorted(stations, key=lambda x: x['location'][0], reverse=True)
         # call the subway_alerts function to get alerts
-        return subway_alerts(request, subway_id, sorted_stations)
+        return subway_alerts(request, subway_id, sorted_stations, fav_subway)
     return HttpResponse('Something went wrong')
 
 def station_detail(request, station_id):
@@ -130,6 +135,38 @@ def station_detail(request, station_id):
             "station_data": data['data'][0],
         })
     return HttpResponse('Something went wrong')
+
+@login_required
+def add_subway(request, subway_id):
+    subway = Route.objects.create(
+        user=request.user,
+        route_id=subway_id,
+    )
+    return redirect('subway_detail', subway_id=subway_id)
+
+@login_required
+def add_station(request, station_id):
+    station = Station.objects.create(
+        user=request.user,
+        station_id=station_id,
+    )
+    return redirect('station_detail', station_id=station_id)
+
+@login_required
+def remove_subway(request, subway_id):
+    subway = Route.objects.filter(
+        user=request.user,
+        route_id=subway_id,
+    ).delete()
+    return redirect('subway_detail', subway_id=subway_id)
+
+@login_required
+def remove_station(request, station_id):
+    station = Station.objects.filter(
+        user=request.user,
+        station_id=station_id,
+    ).delete()
+    return redirect('station_detail', station_id=station_id)
 
 def test(request):
     url = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts.json"
