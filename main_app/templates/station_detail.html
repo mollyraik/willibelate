@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>Upcoming trains at {{ station_data.name }}</title>
@@ -12,13 +13,13 @@
 <h4>Northbound Trains:</h4>
 {% for train in station_data.N %}
         <ul>
-            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}">: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
         </ul>
 {% endfor %}
 <h4>Southbound Trains:</h4>
 {% for train in station_data.N %}
         <ul>
-            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}">: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
         </ul>
 {% endfor %}
 <script>

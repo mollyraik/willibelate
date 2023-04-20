@@ -14,6 +14,18 @@ main {
 	max-width: 4rem;
 }
 
+
+#station-bullet {
+	max-width: 1rem;
+}
+
+.favorite {
+	/* move to the top right corner of page */
+	position: absolute;
+	top: 5rem;
+	right: 4rem;
+}
+
 /* 
 .mta-bullet {
 	display: inline-block;
