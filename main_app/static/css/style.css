@@ -2,12 +2,27 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+	background-color: black;
 }
 
 main {
     flex-grow: 1;
-	background-color: black;
 	color: white; 
+}
+
+#header-bullet {
+	max-width: 4rem;
+}
+
+#station-bullet {
+	max-width: 1rem;
+}
+
+.favorite {
+	/* move to the top right corner of page */
+	position: absolute;
+	top: 5rem;
+	right: 4rem;
 }
 /* 
 .mta-bullet {
