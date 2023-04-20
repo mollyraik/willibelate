@@ -6,13 +6,14 @@ body {
 }
 
 main {
-    flex-grow: 1;
+    flex-grow: 1;	
 	color: white; 
 }
 
 #header-bullet {
 	max-width: 4rem;
 }
+
 
 #station-bullet {
 	max-width: 1rem;
@@ -24,6 +25,7 @@ main {
 	top: 5rem;
 	right: 4rem;
 }
+
 /* 
 .mta-bullet {
 	display: inline-block;
