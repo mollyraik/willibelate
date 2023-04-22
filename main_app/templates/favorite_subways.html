@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>Favorite Subways</title>
@@ -8,25 +9,38 @@
 <h1>Favorite Subways</h1>
 <div class="row">
     {% for subway in subways %}
-    <div class="col s12 m6 l3">
-        <h3>{{ subway.name }}</h3>
-        <h5>Current Service Alerts</h5>
-        <ul class="status-update">
-            {% for alert in alerts %}
-            <li>{{ alert.text }}</li>
-            {% endfor %}
-        </ul>
-        <h5>{{ subway.name }} Stations</h5>
-        <ul class="station-list">
-            {% for station in stations %}
-            <li>
-                <a href="{% url 'station_detail' station.id %}">
-                    {{ station.name }}
+    <div class="col s12 m6 l4">
+        <div class="card grey">
+            <a href="{% url 'subway_detail' subway.route_id %}">
+                <div class="card-content grey darken-2">
+                    <img class="responsive-img card-image"  id="header-bullet" src="{% static 'imgs/' %}{{ subway.route_id }}.svg" alt="{{ subway.route_id }}">
                 </a>
-            </li>
-            {% empty %}
-            <li>This train is not currently running</li>
-            {% endfor %}
+                    <h5>Service Alerts</h5>
+                    <div id="alerts">
+                        <ul class="status-update">
+                            {% for alert in subway.alerts %}
+                            <li>{{ alert.text }}</li>
+                            {% empty %}
+                            <li>No active alerts</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div id="stations">
+                        <a class='dropdown-trigger btn grey lighten-2 black-text' href="#" data-target='{{ subway.route_id }}-station-dropdown'>Select a Station</a>
+                        <ul id="{{ subway.route_id }}-station-dropdown" class="station-list dropdown-content">
+                            {% for station in subway.stations %}
+                            <li>
+                                <a href="{% url 'station_detail' station.id %}">
+                                    {{ station.name }}
+                                </a>
+                            </li>
+                            {% empty %}
+                            <li>This train is not currently running</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
     </div>
     {% empty %}
     <div>

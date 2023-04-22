@@ -52,9 +52,65 @@ def signup(request):
         'error': error_message
     })
 
+def fav_alerts(request, favorites):
+    for fav_subway in favorites:
+        subway_id = fav_subway['route_id']
+        url = SERVICE_ALERT_URL
+        headers = {
+            "x-api-key": os.environ.get('MTA_API_KEY'),
+            "content-type": "application/json"
+        }
+        result = requests.get(url, headers=headers)
+        if result.status_code == 200:
+            data = result.json()
+            # print(data)
+            alerts = data['entity']
+            high_priority_alerts = []
+            for alert in alerts:
+                for i in range(len(alert['alert']['informed_entity'])):
+                    # check if the alert is for the subway line and if it is high priority
+                    if 'transit_realtime.mercury_entity_selector' in alert['alert']['informed_entity'][i]:
+                        train_line, priority = alert['alert']['informed_entity'][i]['transit_realtime.mercury_entity_selector']['sort_order'].split(':')[1:]
+                        priority = int(priority)
+                        if train_line == subway_id and priority > 19:
+                            # check if alert is active
+                            if alert['alert']['active_period'][0]['start'] < now_in_unix:
+                                high_priority_alerts.append({
+                                    "text": alert['alert']['header_text']['translation'][0]['text'],
+                                    "priority": priority,
+                                })
+            #remove duplicates
+            high_priority_alerts = list({alert['text']: alert for alert in high_priority_alerts}.values())
+            # sort by priority
+            high_priority_alerts.sort(key=lambda x: x['priority'], reverse=True)
+            # only show the top 3 alerts
+            high_priority_alerts = high_priority_alerts[:3]
+            fav_subway['alerts'] = high_priority_alerts
+    return render(request, 'favorite_subways.html', {
+        "subways": favorites,
+    })
+    
+
 def subway_list(request):
     subways = Route.objects.filter(user=request.user)
-    return render(request, 'favorite_subways.html')
+    favorites = []
+    # ids = []
+    for subway in subways:
+        url = API_URL + "by-route/" + subway.route_id
+        result = requests.get(url)
+        if result.status_code == 200:
+            data = result.json()
+            stations = data['data']
+            sorted_stations = sorted(stations, key=lambda x: x['location'][0], reverse=True)
+            fav_subway = {
+                "route_id": subway.route_id,
+                "stations": sorted_stations,
+                "alerts": []
+            }
+            favorites.append(fav_subway)
+            # ids.append(subway.route_id)
+    
+    return fav_alerts(request, favorites)
 
 def station_list(request):
     stations = Station.objects.filter(user=request.user)
