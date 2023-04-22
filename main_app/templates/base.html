@@ -12,6 +12,7 @@
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block title%}
     <title>Will I Be Late?</title>
@@ -62,5 +63,38 @@
       // when the dropdown is clicked, open the dropdown
       
       </script> 
+      <script>
+        // Load the JSON data
+        // Your JavaScript code goes here
+        console.log("hello")
+        $.getJSON("{% static 'data/stations.json' %}", function(data) {
+            console.log('the data is loaded')
+            // console.log(data)
+            const dataArray = Object.values(data);
+            // console.log(dataArray)
+            // console.log(jsonData)
+        
+            // Attach an event listener to the search input
+            $('#search-input').on('input', function() {
+                var searchQuery = $(this).val().toLowerCase();
+                var filteredData = [];
+        
+                // Filter the JSON data based on the search query
+                if (searchQuery) {
+                    filteredData = dataArray.filter(function(item) {
+                        return item.name.toLowerCase().indexOf(searchQuery) !== -1;
+                    });
+                }
+        
+                // Update the dropdown list with the filtered results
+                var resultsList = $('#search-results');
+                resultsList.empty();
+                $.each(filteredData, function(index, result) {
+                    link = '/station/' + result.id + '/'
+                    resultsList.append(`<li><a href="${link}">${result.name}</a></li>`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
