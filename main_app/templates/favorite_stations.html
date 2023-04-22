@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>Favorite Stations</title>
@@ -8,23 +9,33 @@
 <h1>Favorite Stations</h1>
 <div class="row">
     {% for station in stations %}
-    <div class="col s12 m6 l3">
-        <h3>{{ station.name }}</h3>
-        <h5>Northbound Trains:</h5>
-        {% for train in station.N %}
-        <ul>
-            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
-        </ul>
-        {% endfor %}
-        <h5>Southbound Trains:</h5>
-        {% for train in station.S %}
-        <ul>
-            <li>{{ train.route }}: {{ train.time }}, {{ train.time_until_train }} minutes away</li>
-        </ul>
-        {% endfor %}
+    <div class="col s12 m6">
+        <div class="card grey darken-2">
+            <div class="card-content">
+                <h3 class="card-title deep-purple-text text-lighten-3">{{ station.station_data.name }}</h3>
+                <div class="row">
+                    <div class="col s6">
+                        <h6><bold>Northbound Trains:</bold></h6>
+                        {% for train in station.station_data.N %}
+                        <ul>
+                            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+                        </ul>
+                        {% endfor %}
+                    </div>
+                    <div class="col s6">
+                        <h6><bold>Southbound Trains:</bold></h6>
+                        {% for train in station.station_data.S %}
+                        <ul>
+                            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</li>
+                        </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {% empty %}
-    <div>
+    <div class="card-content">
         <h5>There are no favorite stations yet.</h5>
     </div>
     {% endfor %}
