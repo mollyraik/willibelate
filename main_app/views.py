@@ -12,6 +12,7 @@ from datetime import datetime
 from django.utils import timezone
 import pytz
 import math
+# from .static.data import stations
 
 API_URL = "http://127.0.0.1:5000/"
 SERVICE_ALERT_URL = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts.json"
@@ -254,18 +255,5 @@ def remove_station(request, station_id):
     return redirect('station_detail', station_id=station_id)
 
 def test(request):
-    url = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts.json"
-    headers = {
-        "x-api-key": "Yiwi9kjBbi9VLTh4C6fRI4TBYF1ijJoJ1mzDats9",
-        "content-type": "application/json"
-        }
-    result = requests.get(url, headers=headers)
-    if result.status_code == 200:
-        data = result.json()
-        new_data = json.dumps(data, indent=4, sort_keys=True)
-        for i in range(len(data['entity'])):
-            if ":32" in data['entity'][i]['alert']['informed_entity'][0]['transit_realtime.mercury_entity_selector']['sort_order'] and '[1]' in data['entity'][i]['alert']['header_text']['translation'][0]['text']:
-                print(data['entity'][i]['alert']['header_text']['translation'][0]['text'])
-        return HttpResponse(new_data)
-    return HttpResponse('Something went wrong')
+    pass
 
