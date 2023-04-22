@@ -114,7 +114,30 @@ def subway_list(request):
 
 def station_list(request):
     stations = Station.objects.filter(user=request.user)
-    return render(request, 'favorite_stations.html')
+    favorites = []
+    now = datetime.now(station_tz)
+    for station in stations:
+        url = API_URL + "by-id/" + station.station_id + "?time=" + now.strftime("%H:%M")
+        result = requests.get(url)
+        if result.status_code == 200:
+            data = result.json()
+            for stop in data['data']:
+                for direction in ['N', 'S']:
+                    for departure in stop[direction]:
+                        train_time_str = departure['time']
+                        train_time = datetime.fromisoformat(train_time_str)
+                        time_until_train = (train_time - now).total_seconds()/60
+                        departure['time'] = train_time.astimezone(station_tz).strftime("%I:%M %p")
+                        departure['time_until_train'] = time_until_train.__trunc__()
+            fav_station = {
+                "station_id": station.station_id,
+                "station_data": data['data'][0],
+            }
+            favorites.append(fav_station)
+    return render(request, 'favorite_stations.html', {
+        "now": now,
+        "stations": favorites,
+        })
 
 def subway_alerts(request, subway_id, sorted_stations, fav_subway):
     url = SERVICE_ALERT_URL
@@ -171,6 +194,11 @@ def subway_detail(request, subway_id):
     return HttpResponse('Something went wrong')
 
 def station_detail(request, station_id):
+    # check if station is in favorites
+    if Station.objects.filter(user=request.user.id, station_id=station_id).exists():
+        fav_station = True
+    else:
+        fav_station = False
     # add time query to prevent caching
     now = datetime.now(station_tz)
     url = f"{API_URL}by-id/{station_id}?time={now}"
@@ -189,6 +217,7 @@ def station_detail(request, station_id):
             "now": now,
             "station_id": station_id,
             "station_data": data['data'][0],
+            "fav_station": fav_station,
         })
     return HttpResponse('Something went wrong')
 
