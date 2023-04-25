@@ -14,7 +14,7 @@ import pytz
 import math
 # from .static.data import stations
 
-API_URL = "http://127.0.0.1:5000/"
+API_URL = "https://mtapi.herokuapp.com/"
 SERVICE_ALERT_URL = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts.json"
 
 station_tz = pytz.timezone('America/New_York')
