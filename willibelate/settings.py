@@ -139,3 +139,6 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
+
+import django_heroku
+django_heroku.settings(locals())
