@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Route, Station
+from .models import Subway, Stop
 import os
 import json
 from datetime import datetime
@@ -94,7 +94,7 @@ def fav_alerts(request, favorites):
     
 
 def subway_list(request):
-    subways = Route.objects.filter(user=request.user)
+    subways = Subway.objects.filter(user=request.user)
     favorites = []
     # ids = []
     for subway in subways:
@@ -115,7 +115,7 @@ def subway_list(request):
     return fav_alerts(request, favorites)
 
 def station_list(request):
-    stations = Station.objects.filter(user=request.user)
+    stations = Stop.objects.filter(user=request.user)
     favorites = []
     now = datetime.now(station_tz)
     for station in stations:
@@ -181,7 +181,7 @@ def subway_alerts(request, subway_id, sorted_stations, fav_subway):
     return HttpResponse('Something went wrong')
 
 def subway_detail(request, subway_id):
-    if Route.objects.filter(user=request.user.id, route_id=subway_id).exists():
+    if Subway.objects.filter(user=request.user.id, route_id=subway_id).exists():
         fav_subway = True
     else:
         fav_subway = False
@@ -197,7 +197,7 @@ def subway_detail(request, subway_id):
 
 def station_detail(request, station_id):
     # check if station is in favorites
-    if Station.objects.filter(user=request.user.id, station_id=station_id).exists():
+    if Stop.objects.filter(user=request.user.id, station_id=station_id).exists():
         fav_station = True
     else:
         fav_station = False
@@ -225,7 +225,7 @@ def station_detail(request, station_id):
 
 @login_required
 def add_subway(request, subway_id):
-    subway = Route.objects.create(
+    subway = Subway.objects.create(
         user=request.user,
         route_id=subway_id,
     )
@@ -233,7 +233,7 @@ def add_subway(request, subway_id):
 
 @login_required
 def add_station(request, station_id):
-    station = Station.objects.create(
+    station = Stop.objects.create(
         user=request.user,
         station_id=station_id,
     )
@@ -241,7 +241,7 @@ def add_station(request, station_id):
 
 @login_required
 def remove_subway(request, subway_id):
-    subway = Route.objects.filter(
+    subway = Subway.objects.filter(
         user=request.user,
         route_id=subway_id,
     ).delete()
@@ -249,7 +249,7 @@ def remove_subway(request, subway_id):
 
 @login_required
 def remove_station(request, station_id):
-    station = Station.objects.filter(
+    station = Stop.objects.filter(
         user=request.user,
         station_id=station_id,
     ).delete()

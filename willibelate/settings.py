@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'willibelate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mollyraik/willibelate',
+        'NAME': 'mollyraik/WIBL',
         'USER': os.environ['USER'],
         'PASSWORD': os.environ['PASSWORD'],
         'HOST': 'db.bit.io',
