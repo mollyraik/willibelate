@@ -13,34 +13,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Station',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('stop_id', models.CharField(max_length=4)),
-                ('name', models.CharField(max_length=50)),
-                ('lat', models.FloatField()),
-                ('lon', models.FloatField()),
-                ('parent_id', models.CharField(max_length=4)),
-                ('json_id', models.CharField(max_length=4, null=True)),
-                ('is_favorite', models.BooleanField(default=False)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Route',
-            fields=[
-                ('route_id', models.CharField(max_length=2, primary_key=True, serialize=False)),
-                ('agency_id', models.CharField(default='MTA NYCT', max_length=10)),
-                ('route_short_name', models.CharField(max_length=2)),
-                ('route_long_name', models.CharField(max_length=50)),
-                ('route_desc', models.TextField()),
-                ('route_type', models.IntegerField(default=1)),
-                ('route_url', models.CharField(max_length=50)),
-                ('route_color', models.CharField(max_length=6, null=True)),
-                ('route_text_color', models.CharField(max_length=6, null=True)),
-                ('is_favorite', models.BooleanField(default=False)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
     ]

@@ -10,14 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='route',
-            name='route_id',
-            field=models.CharField(max_length=2),
-        ),
-        migrations.AlterField(
-            model_name='station',
-            name='station_id',
-            field=models.CharField(max_length=10),
-        ),
     ]
