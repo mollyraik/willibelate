@@ -10,6 +10,12 @@ main {
 	color: white; 
 }
 
+#id_username, #id_password, #id_password1, #id_password2 {
+	background-color: #181818;
+	color: white;
+	border: 1px solid #181818;
+}
+
 #header-bullet {
 	max-width: 4rem;
 }
