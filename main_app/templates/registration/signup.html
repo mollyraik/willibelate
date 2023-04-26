@@ -12,7 +12,7 @@
 <p class="red-text">{{ error }}</p>
 {% endif %}
 
-<form method="POST" style="background-color: grey;">
+<form method="POST" style="color: white;">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Sign Up" class="btn blue">
