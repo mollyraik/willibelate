@@ -6,36 +6,38 @@
 {% endblock %}
 
 {% block content %}
+<br>
 {% if fav_station %}
-  <a href="{% url 'remove_station' station_id %}" class="favorite" data-station-id="{{ station_id }}"><i class="material-icons medium yellow-text text-darken-2">star</i></a>
+  <a href="{% url 'remove_station' station_id %}" class="favorite" data-station-id="{{ station_id }}"><i class="bi bi-star-fill"></i></a>
 {% else %}
-  <a href="{% url 'add_station' station_id %}" class="favorite" data-station-id="{{ station_id }}"><i class="material-icons grey-text medium text-darken-2">star_border</i></a>
+  <a href="{% url 'add_station' station_id %}" class="favorite" data-station-id="{{ station_id }}"><i class="bi bi-star"></i></a>
 {% endif %}
+<br>
 <h1>Upcoming trains at <span class="deep-purple-text text-lighten-3">{{ station_data.name }}</span></h1>
 <hr />
 <input type="hidden" value="{{ now }}" id="now">
-<div class="row">
-    <div class="col s12 m6">
-        <div class="card grey darken-2">
-            <div class="card-content">
-                <h4 class="card-title">Northbound Trains</h4>
-                {% for train in station_data.N %}
-                        <ul>
-                            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</li>
-                        </ul>
-                {% endfor %}
-            </div>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <button class="nav-link active" id="northbound-tab" data-bs-toggle="tab" data-bs-target="#northbound-tab-pane" type="button" role="tab" aria-controls="northbound-tab-pane" aria-selected="true">Northbound</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="southbound-tab" data-bs-toggle="tab" data-bs-target="#southbound-tab-pane" type="button" role="tab" aria-controls="southbound-tab-pane" aria-selected="false">Southbound</button>
+            </li>
+        </ul>
     </div>
-    <div class="col s12 m6">
-        <div class="card grey darken-2">
-            <div class="card-content">
-                <h4 class="card-title">Southbound Trains:</h4>
-                {% for train in station_data.N %}
-                        <ul>
-                            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</li>
-                        </ul>
-                {% endfor %}
+    <div class="card-body">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="northbound-tab-pane" role="tabpanel" aria-labelledby="northbound-tab" tabindex="0">
+                    {% for train in station_data.N %}
+                        <p><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</p>
+                    {% endfor %}
+            </div>
+            <div class="tab-pane fade" id="southbound-tab-pane" role="tabpanel" aria-labelledby="southbound-tab" tabindex="0">
+                    {% for train in station_data.S %}
+                            <p><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</p>
+                    {% endfor %}
             </div>
         </div>
     </div>
@@ -45,5 +47,26 @@
     setTimeout(function(){
         window.location.reload(1);
     }, 60000);
+
+const triggerTabList = document.querySelectorAll('#northbound-tab button')
+    triggerTabList.forEach(triggerEl => {
+        const tabTrigger = new bootstrap.Tab(triggerEl)
+
+    triggerEl.addEventListener('click', event => {
+        event.preventDefault()
+        tabTrigger.show()
+    })
+})
+
+const triggerTabList2 = document.querySelectorAll('#southbound-tab button')
+    triggerTabList2.forEach(triggerEl => {
+        const tabTrigger = new bootstrap.Tab(triggerEl)
+
+    triggerEl.addEventListener('click', event => {
+        event.preventDefault()
+        tabTrigger.show()
+    })
+})
+
 </script>
 {% endblock%}

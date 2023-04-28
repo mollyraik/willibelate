@@ -2,96 +2,156 @@
 {% load static %}
 
 {% block content %}
-
-<h1>Will I Be Late Today?</h1>
-<h2>Realtime Subway Updates</h2>
-<p>Track favorite trains and stations</p>
+    <br>
+    <h1 class="headline">Will I Be Late Today?</h1>
+    <br>
+    <h4>Spoiler: Probably.</h4>
+<hr>
 <div class="form-group">
     <h4>Search for a Subway Station:</h4>
     <input type="text" class="form-control white-text" id="search-input" placeholder="Search...">
-    <div class="dropdown">
-        <ul class="dropdown-menu" id="search-results"></ul>
+    <div class="search-dropdown">
+        <ul class="search-dropdown-menu" id="search-results"></ul>
     </div>
 </div>
+<hr>
 <div class="train-lines">
     <h4>Search By Train Line:</h4>
-    <div class="row">
-        <a href="/line/1" class="mta-bullet line-1 col s12 m6 l2">
+    <br>
+    <div class="row row-cols-6 g-3">
+        <a href="/line/1" class="col">
             <img class="responsive-img" src="{% static 'imgs/1.svg' %}" alt="1">
         </a>
-        <a href="/line/2" class="mta-bullet line-2 col s12 m6 l2">
+        <a href="/line/2" class="col">
             <img src="{% static 'imgs/2.svg' %}" alt="2">
         </a>
-        <a href="/line/3" class="mta-bullet line-3 col s12 m6 l2">
+        <a href="/line/3" class="col">
             <img class="responsive-img" src="{% static 'imgs/3.svg' %}" alt="3">
         </a>
-    </div>
-    <div class="row">
-        <a href="/line/4" class="mta-bullet line-4 col s12 m6 l2">
+        <a href="/line/4" class="col">
             <img class="responsive-img" src="{% static 'imgs/4.svg' %}" alt="4">
         </a>
-        <a href="/line/5" class="mta-bullet line-5 col s12 m6 l2">
+        <a href="/line/5" class="col">
             <img class="responsive-img" src="{% static 'imgs/5.svg' %}" alt="5">
         </a>
-        <a href="/line/6" class="mta-bullet line-6 col s12 m6 l2">
+        <a href="/line/6" class="col">
             <img class="responsive-img" src="{% static 'imgs/6.svg' %}" alt="6">
         </a>
-        <a href="/line/7" class="mta-bullet line-7 col s12 m6 l2">
+        <a href="/line/7" class="col">
             <img class="responsive-img" src="{% static 'imgs/7.svg' %}" alt="7">
         </a><br />
-    </div>
-    <div class="row">
-        <a href="/line/A" class="mta-bullet line-A col s12 m6 l2">
+        <a href="/line/A" class="col">
             <img class="responsive-img" src="{% static 'imgs/A.svg' %}" alt="A">
         </a>
-        <a href="/line/C" class="mta-bullet line-C col s12 m6 l2">
+        <a href="/line/C" class="col">
             <img class="responsive-img" src="{% static 'imgs/C.svg' %}" alt="C">
         </a>
-        <a href="/line/E" class="mta-bullet line-E col s12 m6 l2">
+        <a href="/line/E" class="col">
             <img class="responsive-img" src="{% static 'imgs/E.svg' %}" alt="E">
-        </a><br class="col s12"/>
-    </div>
-    <div class="row">
-        <a href="/line/N" class="mta-bullet line-N col s12 m6 l2">
+        <a href="/line/N" class="col">
             <img class="responsive-img" src="{% static 'imgs/N.svg' %}" alt="N">
         </a>
-        <a href="/line/Q" class="mta-bullet line-Q col s12 m6 l2">
+        <a href="/line/Q" class="col">
             <img class="responsive-img" src="{% static 'imgs/Q.svg' %}" alt="Q">
         </a>
-        <a href="/line/R" class="mta-bullet line-R col s12 m6 l2">
+        <a href="/line/R" class="col">
             <img class="responsive-img" src="{% static 'imgs/R.svg' %}" alt="R">
         </a>
-        <a href="/line/W" class="mta-bullet line-W col s12 m6 l2">
+        <a href="/line/W" class="col">
             <img class="responsive-img" src="{% static 'imgs/W.svg' %}" alt="W">
-        </a><br class="col s12"/>
-    </div>
-    <div class="row">
-        <a href="/line/B" class="mta-bullet line-B col s12 m6 l2">
+        <a href="/line/B" class="col">
             <img class="responsive-img" src="{% static 'imgs/B.svg' %}" alt="B">
         </a>
-        <a href="/line/D" class="mta-bullet line-D col s12 m6 l2">
+        <a href="/line/D" class="col">
             <img class="responsive-img" src="{% static 'imgs/D.svg' %}" alt="D">
         </a>
-        <a href="/line/F" class="mta-bullet line-F col s12 m6 l2">
+        <a href="/line/F" class="col">
             <img class="responsive-img" src="{% static 'imgs/F.svg' %}" alt="F">
         </a>
-        <a href="/line/M" class="mta-bullet line-M col s12 m6 l2">
+        <a href="/line/M" class="col">
             <img class="responsive-img" src="{% static 'imgs/M.svg' %}" alt="M">
-        </a><br class="col s12"/>
-    </div>
-    <div class="row">
-        <a href="/line/L" class="mta-bullet line-L col s12 m6 l2">
+        <a href="/line/L" class="col">
             <img class="responsive-img" src="{% static 'imgs/L.svg' %}" alt="L">
         </a>
-        <a href="/line/G" class="mta-bullet line-G col s12 m6 l2">
+        <a href="/line/G" class="col">
             <img class="responsive-img" src="{% static 'imgs/G.svg' %}" alt="G">
         </a>
-        <a href="/line/J" class="mta-bullet line-J col s12 m6 l2">
+        <a href="/line/J" class="col">
             <img class="responsive-img" src="{% static 'imgs/J.svg' %}" alt="J">
         </a>
-        <a href="/line/Z" class="mta-bullet line-Z col s12 m6 l2">
+        <a href="/line/Z" class="col">
             <img class="responsive-img" src="{% static 'imgs/Z.svg' %}" alt="Z">
         </a>
     </div>
 </div>
+<script>
+    // Load the JSON data
+// console.log("hello");
+// $.getJSON("{% static 'data/stations.json' %}", function(data) {
+//     console.log('the data is loaded')
+//     // console.log(data)
+//     const dataArray = Object.values(data);
+//     // console.log(dataArray)
+//     // console.log(jsonData)
+
+//     // Attach an event listener to the search input
+//     $('#search-input').on('input', function() {
+//         var searchQuery = $(this).val().toLowerCase();
+//         var filteredData = [];
+
+//         // Filter the JSON data based on the search query
+//         if (searchQuery) {
+//             filteredData = dataArray.filter(function(item) {
+//                 // console.log(filteredData)
+//                 return item.name.toLowerCase().indexOf(searchQuery) !== -1;
+//             });
+//         }
+
+//         // Update the dropdown list with the filtered results
+//         var resultsList = $('#search-results');
+//         resultsList.empty();
+//         $.each(filteredData, function(index, result) {
+//             link = '/station/' + result.id + '/'
+//             resultsList.append(`<li><a class='search-dropdown-item' href="${link}">${result.name}</a></li>`);
+//         });
+//         var dropdownMenu = $('.search-dropdown-menu');
+//         if (dropdownMenu.length && dropdownMenu.children().length > 0) {
+//             dropdownMenu.show();
+//         } else {
+//             dropdownMenu.hide();
+//         }
+//     });
+// });
+
+  $.getJSON("{% static 'data/stations.json' %}", function(data) {
+        console.log('the data is loaded')
+        // console.log(data)
+        const dataArray = Object.values(data);  
+    // Attach an event listener to the search input
+    $('#search-input').on('input', function() {
+    var searchQuery = $(this).val().toLowerCase();
+    var filteredData = [];
+
+    // Filter the JSON data based on the search query
+    if (searchQuery) {
+        filteredData = dataArray.filter(function(item) {
+            return item.name.toLowerCase().indexOf(searchQuery) !== -1;
+        });
+    }
+
+    // Update the dropdown list with the filtered results
+    var resultsList = $('#search-results');
+    resultsList.empty();
+    if (filteredData.length > 0) {
+        $.each(filteredData, function(index, result) {
+            link = '/station/' + result.id + '/'
+            resultsList.append(`<li><a class='search-dropdown-item' href="${link}">${result.name}</a></li>`);
+        });
+        $('.search-dropdown').show();
+    } else {
+        $('.search-dropdown').hide();
+    }
+});
+});
+</script>
 {% endblock %}

@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>Login to find out if you'll be late today</h1>
+<h1>Login to save favorite stations and subway lines</h1>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Login" class="btn blue">
+    <input type="submit" value="Login" class="btn btn-primary">
 </form>
 {% endblock %}
