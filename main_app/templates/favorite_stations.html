@@ -1,43 +1,179 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block title %}
+{% extends 'base.html' %} {% load static %} {% block title %}
 <title>Favorite Stations</title>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <h1>Favorite Stations</h1>
-<div class="row">
+<div class="row g-3">
     {% for station in stations %}
-    <div class="col s12 m6">
-        <div class="card grey darken-2">
-            <div class="card-content">
-                <h3 class="card-title deep-purple-text text-lighten-3">{{ station.station_data.name }}</h3>
-                <div class="row">
-                    <div class="col s6">
-                        <h6><bold>Northbound Trains:</bold></h6>
-                        {% for train in station.station_data.N %}
-                        <ul>
-                            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</li>
-                        </ul>
-                        {% endfor %}
-                    </div>
-                    <div class="col s6">
-                        <h6><bold>Southbound Trains:</bold></h6>
-                        {% for train in station.station_data.S %}
-                        <ul>
-                            <li><img class="responsive-img"  id="station-bullet" src="{% static 'imgs/' %}{{ train.route }}.svg" alt="{{ train.route }}"> {{ train.time }}, {{ train.time_until_train }} minutes away</li>
-                        </ul>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{{ station.station_data.name }}</h3>
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a
+                class="nav-link active northbound-tab"
+                href="#northbound-tab-{{ station.station_id }}"
+                data-bs-toggle="tab"
+                data-bs-target="#northbound-tab-{{ station.station_id }}"
+                type="button"
+                role="tab"
+                aria-controls="northbound-tab-{{ station.station_id }}"
+                aria-selected="true"
+                >Northbound</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link southbound-tab"
+                href="#southbound-tab-{{ station.station_id }}"
+                data-bs-toggle="tab"
+                data-bs-target="#southbound-tab-{{ station.station_id }}"
+                type="button"
+                role="tab"
+                aria-controls="southbound-tab-{{ station.station_id }}"
+                aria-selected="false"
+                >Southbound</a
+              >
+            </li>
+          </ul>
         </div>
+        <div class="card-body">
+          <div class="tab-content" id="nav-tabContent">
+            <div
+              class="tab-pane fade show active northbound-tab-pane"
+              role="tabpanel"
+              aria-labelledby="northbound-tab-{{ station.station_id }}"
+              tabindex="0"
+              id="northbound-tab-{{ station.station_id }}"
+            >
+              {% for train in station.station_data.N %}
+              <p>
+                <img
+                  class="responsive-img"
+                  id="station-bullet"
+                  src="{% static 'imgs/' %}{{ train.route }}.svg"
+                  alt="{{ train.route }}"
+                />
+                {{ train.time }}, {{ train.time_until_train }} minutes away
+              </p>
+              {% endfor %}
+            </div>
+            <div
+              class="tab-pane fade southbound-tab-pane"
+              role="tabpanel"
+              aria-labelledby="southbound-tab-{{ station.station_id }}"
+              tabindex="0"
+              id="southbound-tab-{{ station.station_id }}"
+            >
+              {% for train in station.station_data.S %}
+              <p>
+                <img
+                  class="responsive-img"
+                  id="station-bullet"
+                  src="{% static 'imgs/' %}{{ train.route }}.svg"
+                  alt="{{ train.route }}"
+                />
+                {{ train.time }}, {{ train.time_until_train }} minutes away
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     {% empty %}
-    <div class="card-content">
+    <div class="card">
+      <div class="card-body">
         <h5>There are no favorite stations yet.</h5>
+      </div>
     </div>
     {% endfor %}
-</div>
+  </div>
+<script>
+    var northboundTabs = document.querySelectorAll(".northbound-tab");
+var southboundTabs = document.querySelectorAll(".southbound-tab");
+var northboundTabPanes = document.querySelectorAll(".northbound-tab-pane");
+var southboundTabPanes = document.querySelectorAll(".southbound-tab-pane");
+
+// add event listener for northbound tabs
+northboundTabs.forEach(function(tab) {
+  tab.addEventListener("click", function(event) {
+    event.preventDefault();
+    var targetTab = event.currentTarget.getAttribute("aria-controls");
+    var targetPane = document.querySelector(targetTab);
+    northboundTabs.forEach(function(tab) {
+      if (tab !== event.currentTarget) {
+        tab.classList.remove("active");
+        tab.setAttribute("aria-selected", "false");
+      }
+    });
+    southboundTabs.forEach(function(tab) {
+      tab.classList.remove("active");
+      tab.setAttribute("aria-selected", "false");
+    });
+    targetPane.classList.add("active", "show");
+    targetPane.setAttribute("aria-selected", "true");
+    northboundTabPanes.forEach(function(pane) {
+      if (pane !== targetPane) {
+        pane.classList.remove("active", "show");
+        pane.setAttribute("aria-selected", "false");
+      }
+    });
+    southboundTabPanes.forEach(function(pane) {
+      if (pane.classList.contains("active")) {
+        pane.classList.remove("active", "show");
+        pane.setAttribute("aria-selected", "false");
+      }
+    });
+  });
+});
+
+// Add an event listener to each southbound tab
+southboundTabs.forEach(function(tab) {
+  tab.addEventListener("click", function(event) {
+    event.preventDefault();
+    var targetTab = event.currentTarget.getAttribute("aria-controls");
+    var targetPane = document.querySelector(targetTab);
+    northboundTabs.forEach(function(tab) {
+      tab.classList.remove("active");
+      tab.setAttribute("aria-selected", "false");
+    });
+    southboundTabs.forEach(function(tab) {
+      tab.classList.remove("active");
+      tab.setAttribute("aria-selected", "false");
+    });
+    targetPane.classList.add("active", "show");
+    targetPane.setAttribute("aria-selected", "true");
+    northboundTabPanes.forEach(function(pane) {
+      if (pane.classList.contains("active")) {
+        pane.classList.remove("active", "show");
+        pane.setAttribute("aria-selected", "false");
+      }
+    });
+    southboundTabPanes.forEach(function(pane) {
+      if (pane !== targetPane) {
+        pane.classList.remove("active", "show");
+        pane.setAttribute("aria-selected", "false");
+      }
+    });
+  });
+});
+
+// const tabTriggers = document.querySelectorAll('.nav-tabs button');
+
+// tabTriggers.forEach(triggerEl => {
+//   const tabTrigger = new bootstrap.Tab(triggerEl);
+
+//   triggerEl.addEventListener('click', event => {
+//     event.preventDefault();
+//     const targetId = triggerEl.dataset.bsTarget;
+//     const targetPane = document.querySelector(targetId);
+//     const activePane = document.querySelector('.tab-pane.show.active');
+//     activePane.classList.remove('show', 'active');
+//     targetPane.classList.add('show', 'active');
+//     tabTrigger.show();
+//   });
+// });
+
+</script>
 {% endblock%}
