@@ -136,6 +136,7 @@ def station_list(request):
                 "station_data": data['data'][0],
             }
             favorites.append(fav_station)
+            # print(favorites)
     return render(request, 'favorite_stations.html', {
         "now": now,
         "stations": favorites,
