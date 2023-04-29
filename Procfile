@@ -1,1 +1,1 @@
-web: gunicorn willibelate.wsgi
+web: gunicorn willibelate.wsgi --log-file -
