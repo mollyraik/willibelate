@@ -10,11 +10,15 @@ Django, Python, JavaScript, jQuery, HTML, CSS, Bootstrap, PostgreSQL, bit.io
 
 [MTA api](https://api.mta.info/#/landing)
 
-With a *special thanks* to Jon Thorton for his [MTA Realtime API JSON Proxy](https://github.com/jonthornton/MTAPI)
+*Jon Thorton's* [MTA Realtime API JSON Proxy](https://github.com/jonthornton/MTAPI)
 
 ## Screenshots
 ---
+![Home Page](https://i.imgur.com/IdH9yba.png)
 
+![FavStations](https://i.imgur.com/v7LKwwX.png)
+
+![FavSubways](https://i.imgur.com/CqCM8bg.png)
 
 
 ## Getting Started
@@ -28,6 +32,7 @@ With a *special thanks* to Jon Thorton for his [MTA Realtime API JSON Proxy](htt
 
 ## Future Enhancements
 ---
+- Edit Stations file to differentiate between stations with the same name (ie: 125 St --> 125 St (A,B,C,D))
 - Use location data to show users their five closest stations
 - Add animations to show approaching trains on a timeline
 - Allow users to comment on train lines or stations to share live updates with the user community. Posts would timeout after 3 hours to keep information current and relevant.
