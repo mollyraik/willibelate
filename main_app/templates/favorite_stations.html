@@ -10,29 +10,29 @@
           <h3 class="card-title">{{ station.station_data.name }}</h3>
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-              <a
+              <button
                 class="nav-link active northbound-tab"
-                href="#northbound-tab-{{ station.station_id }}"
+                id="northbound-tab-{{ station.station_id }}"
                 data-bs-toggle="tab"
-                data-bs-target="#northbound-tab-{{ station.station_id }}"
+                data-bs-target="#northbound-tab-{{ station.station_id }}-pane"
                 type="button"
                 role="tab"
-                aria-controls="northbound-tab-{{ station.station_id }}"
+                aria-controls="northbound-tab-{{ station.station_id }}-pane"
                 aria-selected="true"
-                >Northbound</a
+                >Northbound</button
               >
             </li>
             <li class="nav-item">
-              <a
+              <button
                 class="nav-link southbound-tab"
-                href="#southbound-tab-{{ station.station_id }}"
+                id="southbound-tab-{{ station.station_id }}"
                 data-bs-toggle="tab"
-                data-bs-target="#southbound-tab-{{ station.station_id }}"
+                data-bs-target="#southbound-tab-{{ station.station_id }}-pane"
                 type="button"
                 role="tab"
-                aria-controls="southbound-tab-{{ station.station_id }}"
+                aria-controls="southbound-tab-{{ station.station_id }}-pane"
                 aria-selected="false"
-                >Southbound</a
+                >Southbound</button
               >
             </li>
           </ul>
@@ -42,9 +42,9 @@
             <div
               class="tab-pane fade show active northbound-tab-pane"
               role="tabpanel"
-              aria-labelledby="northbound-tab-{{ station.station_id }}"
+              aria-labelledby="northbound-tab-{{ station.station_id }}-pane"
               tabindex="0"
-              id="northbound-tab-{{ station.station_id }}"
+              id="northbound-tab-{{ station.station_id }}-pane"
             >
               {% for train in station.station_data.N %}
               <p>
@@ -61,9 +61,9 @@
             <div
               class="tab-pane fade southbound-tab-pane"
               role="tabpanel"
-              aria-labelledby="southbound-tab-{{ station.station_id }}"
+              aria-labelledby="southbound-tab-{{ station.station_id }}-pane"
               tabindex="0"
-              id="southbound-tab-{{ station.station_id }}"
+              id="southbound-tab-{{ station.station_id }}-pane"
             >
               {% for train in station.station_data.S %}
               <p>
@@ -90,90 +90,25 @@
     {% endfor %}
   </div>
 <script>
-    var northboundTabs = document.querySelectorAll(".northbound-tab");
-var southboundTabs = document.querySelectorAll(".southbound-tab");
-var northboundTabPanes = document.querySelectorAll(".northbound-tab-pane");
-var southboundTabPanes = document.querySelectorAll(".southbound-tab-pane");
+var northboundTriggerTabList = [].slice.call(document.querySelectorAll('#northbound-tab-{{ station.station_id }}-pane button'))
+triggerTabList.forEach(function (triggerEl) {
+  var tabTrigger = new bootstrap.Tab(triggerEl)
 
-// add event listener for northbound tabs
-northboundTabs.forEach(function(tab) {
-  tab.addEventListener("click", function(event) {
-    event.preventDefault();
-    var targetTab = event.currentTarget.getAttribute("aria-controls");
-    var targetPane = document.querySelector(targetTab);
-    northboundTabs.forEach(function(tab) {
-      if (tab !== event.currentTarget) {
-        tab.classList.remove("active");
-        tab.setAttribute("aria-selected", "false");
-      }
-    });
-    southboundTabs.forEach(function(tab) {
-      tab.classList.remove("active");
-      tab.setAttribute("aria-selected", "false");
-    });
-    targetPane.classList.add("active", "show");
-    targetPane.setAttribute("aria-selected", "true");
-    northboundTabPanes.forEach(function(pane) {
-      if (pane !== targetPane) {
-        pane.classList.remove("active", "show");
-        pane.setAttribute("aria-selected", "false");
-      }
-    });
-    southboundTabPanes.forEach(function(pane) {
-      if (pane.classList.contains("active")) {
-        pane.classList.remove("active", "show");
-        pane.setAttribute("aria-selected", "false");
-      }
-    });
-  });
-});
+  triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
 
-// Add an event listener to each southbound tab
-southboundTabs.forEach(function(tab) {
-  tab.addEventListener("click", function(event) {
-    event.preventDefault();
-    var targetTab = event.currentTarget.getAttribute("aria-controls");
-    var targetPane = document.querySelector(targetTab);
-    northboundTabs.forEach(function(tab) {
-      tab.classList.remove("active");
-      tab.setAttribute("aria-selected", "false");
-    });
-    southboundTabs.forEach(function(tab) {
-      tab.classList.remove("active");
-      tab.setAttribute("aria-selected", "false");
-    });
-    targetPane.classList.add("active", "show");
-    targetPane.setAttribute("aria-selected", "true");
-    northboundTabPanes.forEach(function(pane) {
-      if (pane.classList.contains("active")) {
-        pane.classList.remove("active", "show");
-        pane.setAttribute("aria-selected", "false");
-      }
-    });
-    southboundTabPanes.forEach(function(pane) {
-      if (pane !== targetPane) {
-        pane.classList.remove("active", "show");
-        pane.setAttribute("aria-selected", "false");
-      }
-    });
-  });
-});
+var southboundTriggerTabList = [].slice.call(document.querySelectorAll('#southbound-tab-{{ station.station_id }}-pane button'))
+triggerTabList.forEach(function (triggerEl) {
+  var tabTrigger = new bootstrap.Tab(triggerEl)
 
-// const tabTriggers = document.querySelectorAll('.nav-tabs button');
-
-// tabTriggers.forEach(triggerEl => {
-//   const tabTrigger = new bootstrap.Tab(triggerEl);
-
-//   triggerEl.addEventListener('click', event => {
-//     event.preventDefault();
-//     const targetId = triggerEl.dataset.bsTarget;
-//     const targetPane = document.querySelector(targetId);
-//     const activePane = document.querySelector('.tab-pane.show.active');
-//     activePane.classList.remove('show', 'active');
-//     targetPane.classList.add('show', 'active');
-//     tabTrigger.show();
-//   });
-// });
+  triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
 
 </script>
 {% endblock%}
