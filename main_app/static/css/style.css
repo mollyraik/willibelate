@@ -5,6 +5,8 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background-color: #16161a;
+  background-image: url('https://i.imgur.com/pOtdwbn.jpg');
+  background-size: cover;
 }
 
 main {
